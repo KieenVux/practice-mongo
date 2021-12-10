@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: pull code
-      - run: git pull
+        run: git pull
 
       - name: Stop server
         run: docker-compose down
