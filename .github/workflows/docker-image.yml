@@ -15,6 +15,7 @@ jobs:
 
       - name: Stop server
         run: docker-compose down
-
+      - name: Remove Image
+        run: docker rmi -f practicemongo
       - name: Start server
         run: docker-compose up -d
