@@ -1,12 +1,42 @@
 version: '3.4'
 
 services:
-  practicemongo:
-    image: practicemongo
+  # đây là database của server
+  # tạo db trên server
+  # nếu có lỗi nhớ sao image cũ của mysql
+  db:
+    image: mysql
+    #xài mySQL k đc thiếu cái này
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: test_config
+      MYSQL_ROOT_PASSWORD: kinkin
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      - PMA_HOSTS=db
+      - PMA_USER=root
+      - PMA_PASSWORD=kinkin
+      - PMA_ARBITRARY=1
+
+  practice_config:
+    image: practice_config
     build:
       context: .
       dockerfile: ./Dockerfile
     environment:
+      MYSQL: db
+      MYSQL_ROOT_PASSWORD: kinkin
+      MYSQL_DATABASE: test_config
       NODE_ENV: production
     ports:
-      - 8080:8080
+      - 8081:8081
+    depends_on:
+      - db
+    links:
+      - db
